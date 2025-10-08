@@ -85,7 +85,9 @@ export function startServer(port = 3000): void {
     if (method === 'POST' && pathname === '/preview') {
       try {
         const raw = await parseBody(req);
+        console.log(`[preview] body length=${raw.length}`);
         const form = querystring.parse(raw);
+        console.log('[preview] form', form);
         const data: SignatureData = {
           name: String(form.name || ''),
           title: String(form.title || ''),
@@ -96,6 +98,7 @@ export function startServer(port = 3000): void {
           linkedinUrl: form.linkedinUrl ? String(form.linkedinUrl) : null,
         };
         const html = generateSignatureHtml(data);
+        console.log('[preview] html size=', html.length);
         res.statusCode = 200;
         res.setHeader('Content-Type', 'text/html; charset=utf-8');
         res.end(html);
