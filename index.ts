@@ -213,6 +213,10 @@ function startServer(port = 3000): void {
     const parsed = url.parse(req.url || '', true);
     const method = (req.method || 'GET').toUpperCase();
     const pathname = parsed.pathname || '/';
+    try {
+      // eslint-disable-next-line no-console
+      console.log(`[request] ${method} ${pathname}`);
+    } catch (_) {}
 
     // Basic favicon ignore
     if (pathname === '/favicon.ico') {
@@ -223,6 +227,7 @@ function startServer(port = 3000): void {
 
     if (method === 'GET' && pathname === '/') {
       const page = renderFormPage();
+      try { console.log('[serve] form page'); } catch (_) {}
       res.statusCode = 200;
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
       res.end(page);
@@ -232,7 +237,9 @@ function startServer(port = 3000): void {
     if (method === 'POST' && pathname === '/generate') {
       try {
         const raw = await parseBody(req);
+        try { console.log(`[body] length=${raw.length}`); } catch (_) {}
         const form = querystring.parse(raw);
+        try { console.log('[form]', form); } catch (_) {}
         const data: SignatureData = {
           name: String(form.name || ''),
           title: String(form.title || ''),
@@ -245,6 +252,7 @@ function startServer(port = 3000): void {
 
         // Basic validation for required fields
         if (!data.name || !data.title || !data.email || !data.logoUrl) {
+          try { console.warn('[validation] missing required fields', { name: !!data.name, title: !!data.title, email: !!data.email, logoUrl: !!data.logoUrl }); } catch (_) {}
           res.statusCode = 400;
           res.setHeader('Content-Type', 'text/plain; charset=utf-8');
           res.end('Missing required fields: name, title, email, logoUrl');
@@ -252,12 +260,14 @@ function startServer(port = 3000): void {
         }
 
         const html = generateSignatureHtml(data);
+        try { console.log('[generate] signature html size=', html.length); } catch (_) {}
         res.statusCode = 200;
         res.setHeader('Content-Type', 'text/html; charset=utf-8');
         res.setHeader('Content-Disposition', 'attachment; filename="signature.html"');
         res.end(html);
         return;
       } catch (err) {
+        try { console.error('[error]', err); } catch (_) {}
         res.statusCode = 500;
         res.setHeader('Content-Type', 'text/plain; charset=utf-8');
         res.end('Internal Server Error');
