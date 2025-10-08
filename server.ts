@@ -20,6 +20,7 @@ function parseBody(req: any): Promise<string> {
 
 export function startServer(port = 3000): void {
   const server = http.createServer(async (req: any, res: any) => {
+    console.log('starting server', port);
     const parsed = url.parse(req.url || '', true);
     const method = (req.method || 'GET').toUpperCase();
     const pathname = parsed.pathname || '/';
