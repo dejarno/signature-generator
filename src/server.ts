@@ -3,10 +3,8 @@ declare var require: any;
 const http: any = require('http');
 const url: any = require('url');
 const querystring: any = require('querystring');
-
-import { generateSignatureHtml } from './signature';
-import { renderFormPage } from './form';
-import { SignatureData } from './types';
+const { generateSignatureHtml }: any = require('./signature');
+const { renderFormPage }: any = require('./form');
 
 function parseBody(req: any): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -48,7 +46,7 @@ export function startServer(port = 3000): void {
         const form = querystring.parse(raw);
         console.log('[form]', form);
 
-        const data: SignatureData = {
+        const data = {
           name: String(form.name || ''),
           title: String(form.title || ''),
           email: String(form.email || ''),
@@ -88,7 +86,7 @@ export function startServer(port = 3000): void {
         console.log(`[preview] body length=${raw.length}`);
         const form = querystring.parse(raw);
         console.log('[preview] form', form);
-        const data: SignatureData = {
+        const data = {
           name: String(form.name || ''),
           title: String(form.title || ''),
           email: String(form.email || ''),

@@ -1,4 +1,4 @@
-import { SignatureData } from './types';
+// local require to avoid needing TS path/type resolution
 
 function escapeHtml(input: string): string {
   return input
@@ -9,7 +9,7 @@ function escapeHtml(input: string): string {
     .replace(/'/g, '&#039;');
 }
 
-export function generateSignatureHtml(data: SignatureData): string {
+export function generateSignatureHtml(data: any): string {
   const name = escapeHtml(data.name);
   const title = escapeHtml(data.title);
   const email = escapeHtml(data.email);
@@ -68,15 +68,15 @@ export function generateSignatureHtml(data: SignatureData): string {
                           </td>
                         </tr>
                         ${hasPhone ? `<tr>
-                          <td style="font-family:Arial, sans-serif; color:#333333; font-size:12px; line-height:16px; padding:2px 0;">
-                            <span style="color:#888888;">Phone:</span>
-                            <a href="${phoneHref}" style="color:#1155cc; text-decoration:none;">${phone}</a>
+                          <td style=\"font-family:Arial, sans-serif; color:#333333; font-size:12px; line-height:16px; padding:2px 0;\">
+                            <span style=\"color:#888888;\">Phone:</span>
+                            <a href=\"${phoneHref}\" style=\"color:#1155cc; text-decoration:none;\">${phone}</a>
                           </td>
                         </tr>` : ''}
                         ${hasWebsite ? `<tr>
-                          <td style="font-family:Arial, sans-serif; color:#333333; font-size:12px; line-height:16px; padding:2px 0;">
-                            <span style="color:#888888;">Web:</span>
-                            <a href="${websiteHref}" style="color:#1155cc; text-decoration:none;">${website}</a>
+                          <td style=\"font-family:Arial, sans-serif; color:#333333; font-size:12px; line-height:16px; padding:2px 0;\">
+                            <span style=\"color:#888888;\">Web:</span>
+                            <a href=\"${websiteHref}\" style=\"color:#1155cc; text-decoration:none;\">${website}</a>
                           </td>
                         </tr>` : ''}
                       </table>

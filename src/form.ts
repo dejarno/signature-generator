@@ -1,4 +1,4 @@
-import { DEFAULTS } from './config';
+const { DEFAULTS }: any = require('./config');
 
 export function renderFormPage(): string {
   return `<!DOCTYPE html>
@@ -55,23 +55,27 @@ export function renderFormPage(): string {
       const form = document.getElementById('sig-form');
       const iframe = document.getElementById('preview');
       function updatePreview() {
+        try { console.log('[preview] update triggered'); } catch (e) {}
         const formData = new FormData(form);
         const params = new URLSearchParams();
         for (const [k, v] of formData.entries()) {
           params.append(k, v);
         }
-        fetch('/preview', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: params.toString() })
+        const bodyStr = params.toString();
+        try { console.log('[preview] request bytes=', bodyStr.length); } catch (e) {}
+        fetch('/preview', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: bodyStr })
           .then(r => r.text())
           .then(html => {
+            try { console.log('[preview] response bytes=', html.length); } catch (e) {}
             const doc = iframe.contentDocument || iframe.contentWindow.document;
             doc.open();
             doc.write(html);
             doc.close();
           })
-          .catch(() => {});
+          .catch(err => { try { console.error('[preview] error', err); } catch (e) {} });
       }
-      form.addEventListener('input', updatePreview);
-      window.addEventListener('DOMContentLoaded', updatePreview);
+      form.addEventListener('input', e => { try { console.log('[preview] input event', e.target && e.target.name); } catch (e2) {} ; updatePreview(); });
+      window.addEventListener('DOMContentLoaded', () => { try { console.log('[preview] DOMContentLoaded'); } catch (e) {} ; updatePreview(); });
     </script>
   </body>
 </html>`;
