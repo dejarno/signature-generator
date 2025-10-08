@@ -11,7 +11,8 @@ export function renderFormPage(): string {
   </head>
   <body style="margin:20px; font-family:Arial, sans-serif; color:#222;">
     <h1 style="font-size:18px; margin:0 0 12px 0;">Generate Email Signature</h1>
-    <form method="POST" action="/generate" style="max-width:520px;">
+    <div style="display:flex; gap:16px; align-items:flex-start;">
+    <form id="sig-form" method="POST" action="/generate" style="max-width:520px; flex:1;">
       <div style="margin-bottom:8px;">
         <label for="name" style="display:block; font-size:12px; color:#555;">Name*</label>
         <input id="name" name="name" type="text" value="${DEFAULTS.name}" required style="width:100%; padding:8px; font-size:14px;" />
@@ -44,7 +45,34 @@ export function renderFormPage(): string {
         <button type="submit" style="background:#1155cc; color:#fff; border:0; padding:10px 14px; font-size:14px; cursor:pointer;">Generate signature.html</button>
       </div>
     </form>
+    <div style="flex:1; min-width:320px;">
+      <div style="font-size:12px; color:#555; margin-bottom:6px;">Live Preview</div>
+      <iframe id="preview" title="Signature Preview" style="width:100%; height:360px; border:1px solid #ddd;"></iframe>
+    </div>
+    </div>
     <p style="margin-top:16px; font-size:12px; color:#666;">Submitting will download a file named <strong>signature.html</strong>.</p>
+    <script>
+      const form = document.getElementById('sig-form');
+      const iframe = document.getElementById('preview');
+      function updatePreview() {
+        const formData = new FormData(form);
+        const params = new URLSearchParams();
+        for (const [k, v] of formData.entries()) {
+          params.append(k, v);
+        }
+        fetch('/preview', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: params.toString() })
+          .then(r => r.text())
+          .then(html => {
+            const doc = iframe.contentDocument || iframe.contentWindow.document;
+            doc.open();
+            doc.write(html);
+            doc.close();
+          })
+          .catch(() => {});
+      }
+      form.addEventListener('input', updatePreview);
+      window.addEventListener('DOMContentLoaded', updatePreview);
+    </script>
   </body>
 </html>`;
 }

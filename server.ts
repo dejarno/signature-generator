@@ -82,6 +82,33 @@ export function startServer(port = 3000): void {
       }
     }
 
+    if (method === 'POST' && pathname === '/preview') {
+      try {
+        const raw = await parseBody(req);
+        const form = querystring.parse(raw);
+        const data: SignatureData = {
+          name: String(form.name || ''),
+          title: String(form.title || ''),
+          email: String(form.email || ''),
+          phone: form.phone ? String(form.phone) : null,
+          website: form.website ? String(form.website) : null,
+          logoUrl: String(form.logoUrl || ''),
+          linkedinUrl: form.linkedinUrl ? String(form.linkedinUrl) : null,
+        };
+        const html = generateSignatureHtml(data);
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        res.end(html);
+        return;
+      } catch (err) {
+        console.error('[error][preview]', err);
+        res.statusCode = 500;
+        res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+        res.end('Internal Server Error');
+        return;
+      }
+    }
+
     res.statusCode = 404;
     res.setHeader('Content-Type', 'text/plain; charset=utf-8');
     res.end('Not Found');
