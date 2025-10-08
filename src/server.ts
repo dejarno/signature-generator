@@ -6,6 +6,10 @@ const querystring: any = require('querystring');
 const { generateSignatureHtml }: any = require('./signature');
 const { renderFormPage }: any = require('./form');
 
+/**
+ * Reads the entire request body as a UTF-8 string.
+ * Useful for parsing small form submissions sent as application/x-www-form-urlencoded.
+ */
 function parseBody(req: any): Promise<string> {
   return new Promise((resolve, reject) => {
     let body = '';
@@ -16,6 +20,15 @@ function parseBody(req: any): Promise<string> {
   });
 }
 
+/**
+ * Starts a minimal HTTP server that serves the signature form, generates
+ * downloadable HTML signatures, and provides a live preview endpoint.
+ *
+ * Routes:
+ * - GET /          → Renders the form page
+ * - POST /generate → Returns a signature.html file for download
+ * - POST /preview  → Returns signature HTML for inline preview
+ */
 export function startServer(port = 3000): void {
   const server = http.createServer(async (req: any, res: any) => {
     const parsed = url.parse(req.url || '', true);
