@@ -7,7 +7,9 @@
     "dev": "ts-node index.ts",
     "build": "tsc index.ts --outDir dist --target ES2019 --module commonjs",
     "start": "node dist/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -21,7 +23,10 @@
   },
   "homepage": "https://github.com/dejarno/signature-generator#readme",
   "devDependencies": {
+    "@types/jest": "^29.5.11",
     "@types/node": "^24.7.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   }
