@@ -1,12 +1,11 @@
-// CommonJS-style requires to avoid ESM config
-declare var require: any;
-const http: any = require('http');
-const url: any = require('url');
-const querystring: any = require('querystring');
-const { generateSignatureHtml }: any = require('./signature');
-const { renderFormPage }: any = require('./form');
+import * as http from 'http';
+import * as url from 'url';
+import * as querystring from 'querystring';
+import { generateSignatureHtml } from './signature';
+import { renderFormPage } from './form';
+import { SignatureData } from './types';
 
-function parseBody(req: any): Promise<string> {
+function parseBody(req: http.IncomingMessage): Promise<string> {
   return new Promise((resolve, reject) => {
     let body = '';
     try { if (typeof req.setEncoding === 'function') req.setEncoding('utf8'); } catch (_) {}
@@ -16,17 +15,24 @@ function parseBody(req: any): Promise<string> {
   });
 }
 
+function toSignatureData(form: Record<string, unknown>): SignatureData {
+  return {
+    name: String(form.name || ''),
+    title: String(form.title || ''),
+    email: String(form.email || ''),
+    phone: form.phone ? String(form.phone) : null,
+    website: form.website ? String(form.website) : null,
+    logoUrl: String(form.logoUrl || ''),
+    linkedinUrl: form.linkedinUrl ? String(form.linkedinUrl) : null,
+  };
+}
+
 export function startServer(port = 3000): void {
-  const server = http.createServer(async (req: any, res: any) => {
+  const server = http.createServer(async (req: http.IncomingMessage, res: http.ServerResponse) => {
     const parsed = url.parse(req.url || '', true);
     const method = (req.method || 'GET').toUpperCase();
     const pathname = parsed.pathname || '/';
 
-    console.log(`[request] ${method} ${pathname}`);
-
-    console.log(`[request] ${method} ${pathname}`);
-    console.log(`[request] ${method} ${pathname}`);
-    console.log(`[request] ${method} ${pathname}`);
     console.log(`[request] ${method} ${pathname}`);
 
     if (pathname === '/favicon.ico') {
@@ -51,15 +57,7 @@ export function startServer(port = 3000): void {
         const form = querystring.parse(raw);
         console.log('[form]', form);
 
-        const data = {
-          name: String(form.name || ''),
-          title: String(form.title || ''),
-          email: String(form.email || ''),
-          phone: form.phone ? String(form.phone) : null,
-          website: form.website ? String(form.website) : null,
-          logoUrl: String(form.logoUrl || ''),
-          linkedinUrl: form.linkedinUrl ? String(form.linkedinUrl) : null,
-        };
+        const data = toSignatureData(form);
 
         if (!data.name || !data.title || !data.email || !data.logoUrl) {
           console.warn('[validation] missing required fields', { name: !!data.name, title: !!data.title, email: !!data.email, logoUrl: !!data.logoUrl });
@@ -91,15 +89,7 @@ export function startServer(port = 3000): void {
         console.log(`[preview] body length=${raw.length}`);
         const form = querystring.parse(raw);
         console.log('[preview] form', form);
-        const data = {
-          name: String(form.name || ''),
-          title: String(form.title || ''),
-          email: String(form.email || ''),
-          phone: form.phone ? String(form.phone) : null,
-          website: form.website ? String(form.website) : null,
-          logoUrl: String(form.logoUrl || ''),
-          linkedinUrl: form.linkedinUrl ? String(form.linkedinUrl) : null,
-        };
+        const data = toSignatureData(form);
         const html = generateSignatureHtml(data);
         console.log('[preview] html size=', html.length);
         res.statusCode = 200;
