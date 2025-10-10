@@ -78,11 +78,6 @@ export function startServer(port = 3000): void {
         res.end(html);
         return;
       } catch (err) {
-        console.error('[error]', err);
-        res.statusCode = 500;
-        res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-        res.end('Internal Server Error');
-        return;
       }
     }
 
