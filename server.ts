@@ -23,6 +23,8 @@ function parseBody(req: any): Promise<string> {
 /**
  * Starts a minimal HTTP server that serves the signature form, generates
  * downloadable HTML signatures, and provides a live preview endpoint.
+ * 
+ * TODO
  *
  * Routes:
  * - GET /          → Renders the form page
@@ -30,6 +32,7 @@ function parseBody(req: any): Promise<string> {
  * - POST /preview  → Returns signature HTML for inline preview
  */
 export function startServer(port = 3000): void {
+  console.log(`[startServer] port=${port}`);
   const server = http.createServer(async (req: any, res: any) => {
     const parsed = url.parse(req.url || '', true);
     const method = (req.method || 'GET').toUpperCase();
