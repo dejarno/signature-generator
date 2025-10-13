@@ -41,6 +41,8 @@ export function startServer(port = 3000): void {
     console.log(`[request] ${method} ${pathname}`);
 
     console.log(`[startServer] port=${port}`);
+    console.log(`[startServer] port=${port}`);
+    console.log(`[startServer] port=${port}`);
 
     if (pathname === '/favicon.ico') {
       res.statusCode = 204;
