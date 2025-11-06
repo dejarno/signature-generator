@@ -1,5 +1,7 @@
 export const DEFAULT_PORT = Number(process.env.PORT || 3000);
 
+export const DB_PASSWORD = 'secretpassword';
+
 export const DEFAULTS = {
   name: 'Alex Johnson',
   title: 'Senior Product Manager',
