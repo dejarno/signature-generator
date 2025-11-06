@@ -106,16 +106,19 @@ export function startServer(port = 3000): void {
         console.log(`[preview] body length=${raw.length}`);
         const form = querystring.parse(raw);
         console.log('[preview] form', form);
-        const data = {
-          name: String(form.name || ''),
-          title: String(form.title || ''),
-          email: String(form.email || ''),
-          phone: form.phone ? String(form.phone) : null,
-          website: form.website ? String(form.website) : null,
-          logoUrl: String(form.logoUrl || ''),
-          linkedinUrl: form.linkedinUrl ? String(form.linkedinUrl) : null,
-        };
-        const html = generateSignatureHtml(data);
+        
+        const name = String(form.name || 'No Name');
+        const html = `
+          <html>
+            <head><title>Preview</title></head>
+            <body>
+              <h1>Signature Preview</h1>
+              <p>Name: <b>${name}</b></p>
+              <p><i>Hello</i></p>
+            </body>
+          </html>
+        `;
+
         console.log('[preview] html size=', html.length);
         res.statusCode = 200;
         res.setHeader('Content-Type', 'text/html; charset=utf-8');
