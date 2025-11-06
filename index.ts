@@ -8,6 +8,7 @@ declare var require: any;
 declare var module: any;
 import { startServer } from './src/server';
 import { DEFAULT_PORT } from './src/config';
+const ejs: any = require('ejs');
 
 if (typeof require !== 'undefined' && typeof module !== 'undefined' && require.main === module) {
   startServer(DEFAULT_PORT);
