@@ -8,7 +8,7 @@ const TaskSearch = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`/search?query=${encodeURIComponent(searchQuery)}`)
+    fetch(`/search?query=${encodeURIComponent(searchQuery)}`) // TODO: use the correct URL
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
