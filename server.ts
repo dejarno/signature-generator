@@ -6,6 +6,10 @@ const querystring: any = require('querystring');
 const { generateSignatureHtml }: any = require('./signature');
 const { renderFormPage }: any = require('./form');
 
+/**
+ * Reads the entire request body as a UTF-8 string.
+ * Useful for parsing small form submissions sent as application/x-www-form-urlencoded.
+ */
 function parseBody(req: any): Promise<string> {
   return new Promise((resolve, reject) => {
     let body = '';
@@ -16,13 +20,29 @@ function parseBody(req: any): Promise<string> {
   });
 }
 
+/**
+ * Starts a minimal HTTP server that serves the signature form, generates
+ * downloadable HTML signatures, and provides a live preview endpoint.
+ * 
+ * TODO
+ *
+ * Routes:
+ * - GET /          → Renders the form page
+ * - POST /generate → Returns a signature.html file for download
+ * - POST /preview  → Returns signature HTML for inline preview
+ */
 export function startServer(port = 3000): void {
+  console.log(`[startServer] port=${port}`);
   const server = http.createServer(async (req: any, res: any) => {
     const parsed = url.parse(req.url || '', true);
     const method = (req.method || 'GET').toUpperCase();
     const pathname = parsed.pathname || '/';
 
     console.log(`[request] ${method} ${pathname}`);
+
+    console.log(`[startServer] port=${port}`);
+    console.log(`[startServer] port=${port}`);
+    console.log(`[startServer] port=${port}`);
 
     if (pathname === '/favicon.ico') {
       res.statusCode = 204;
@@ -86,16 +106,19 @@ export function startServer(port = 3000): void {
         console.log(`[preview] body length=${raw.length}`);
         const form = querystring.parse(raw);
         console.log('[preview] form', form);
-        const data = {
-          name: String(form.name || ''),
-          title: String(form.title || ''),
-          email: String(form.email || ''),
-          phone: form.phone ? String(form.phone) : null,
-          website: form.website ? String(form.website) : null,
-          logoUrl: String(form.logoUrl || ''),
-          linkedinUrl: form.linkedinUrl ? String(form.linkedinUrl) : null,
-        };
-        const html = generateSignatureHtml(data);
+        
+        const name = String(form.name || 'No Name');
+        const html = `
+          <html>
+            <head><title>Preview</title></head>
+            <body>
+              <h1>Signature Preview</h1>
+              <p>Name: <b>${name}</b></p>
+              <p><i>Hello</i></p>
+            </body>
+          </html>
+        `;
+
         console.log('[preview] html size=', html.length);
         res.statusCode = 200;
         res.setHeader('Content-Type', 'text/html; charset=utf-8');
