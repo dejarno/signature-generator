@@ -15,9 +15,17 @@ export function renderFormPage(): string {
         box-sizing: border-box;
       }
       
+      :root {
+        --accent-color: ${DEFAULTS.accentColor};
+        --accent-gradient-from: ${DEFAULTS.accentColor};
+        --accent-gradient-to: ${DEFAULTS.accentColor};
+        --accent-shadow-color: rgba(102, 126, 234, 0.18);
+        --accent-slider-gradient: linear-gradient(90deg, ${DEFAULTS.accentColor} 0%, ${DEFAULTS.accentColor} 100%);
+      }
+      
       body {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, var(--accent-gradient-from) 0%, var(--accent-gradient-to) 100%);
         min-height: 100vh;
         color: #333;
         line-height: 1.6;
@@ -86,20 +94,100 @@ export function renderFormPage(): string {
         transition: all 0.2s ease;
         background: #fafafa;
       }
+
+      .color-slider {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .color-slider input[type="range"] {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        height: 12px;
+        border-radius: 999px;
+        background: var(--accent-slider-gradient);
+        outline: none;
+        cursor: pointer;
+        transition: background 0.2s ease;
+      }
+
+      .color-slider input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--accent-color);
+        border: 3px solid white;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .color-slider input[type="range"]::-webkit-slider-thumb:active {
+        transform: scale(1.1);
+        box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+      }
+
+      .color-slider input[type="range"]::-moz-range-track {
+        height: 12px;
+        border-radius: 999px;
+        background: var(--accent-slider-gradient);
+      }
+
+      .color-slider input[type="range"]::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--accent-color);
+        border: 3px solid white;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .color-slider input[type="range"]:active::-moz-range-thumb {
+        transform: scale(1.1);
+        box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+      }
+
+      .color-slider__meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        font-family: inherit;
+      }
+
+      .color-slider__swatch {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        border: 2px solid rgba(255,255,255,0.6);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        background: var(--accent-color);
+      }
+
+      .color-slider__value {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #374151;
+        letter-spacing: 0.5px;
+      }
       
       .form-group input:focus {
         outline: none;
-        border-color: #667eea;
+        border-color: var(--accent-color);
         background: white;
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        box-shadow: 0 0 0 3px var(--accent-shadow-color);
       }
       
       .form-group input:required {
-        border-left: 4px solid #667eea;
+        border-left: 4px solid var(--accent-color);
       }
       
       .submit-btn {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, var(--accent-gradient-from) 0%, var(--accent-gradient-to) 100%);
         color: white;
         border: none;
         padding: 1rem 2rem;
@@ -111,12 +199,12 @@ export function renderFormPage(): string {
         width: 100%;
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        box-shadow: 0 4px 15px var(--accent-shadow-color);
       }
       
       .submit-btn:hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        box-shadow: 0 8px 25px var(--accent-shadow-color);
       }
       
       .submit-btn:active {
@@ -147,7 +235,7 @@ export function renderFormPage(): string {
       .preview-icon {
         width: 24px;
         height: 24px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, var(--accent-gradient-from) 0%, var(--accent-gradient-to) 100%);
         border-radius: 6px;
         display: flex;
         align-items: center;
@@ -253,6 +341,18 @@ export function renderFormPage(): string {
               <label for="linkedinUrl">LinkedIn Profile</label>
               <input id="linkedinUrl" name="linkedinUrl" type="text" value="${DEFAULTS.linkedinUrl}" placeholder="https://linkedin.com/in/yourprofile" />
             </div>
+
+            <div class="form-group">
+              <label for="accentHue">Accent Color</label>
+              <div class="color-slider">
+                <input id="accentHue" name="accentHue" type="range" min="0" max="360" value="${DEFAULTS.accentHue}" aria-label="Select accent color hue" />
+                <div class="color-slider__meta">
+                  <div class="color-slider__swatch" id="accentColorSwatch" aria-hidden="true"></div>
+                  <span class="color-slider__value" id="accentColorValue">${DEFAULTS.accentColor.toUpperCase()}</span>
+                </div>
+                <input id="accentColor" name="accentColor" type="hidden" value="${DEFAULTS.accentColor}" />
+              </div>
+            </div>
             
             <button type="submit" class="submit-btn">
               Generate Signature
@@ -277,8 +377,124 @@ export function renderFormPage(): string {
       <script>
         const form = document.getElementById('sig-form');
         const iframe = document.getElementById('preview');
-        
+        const accentHueInput = document.getElementById('accentHue');
+        const accentColorInput = document.getElementById('accentColor');
+        const accentSwatch = document.getElementById('accentColorSwatch');
+        const accentValue = document.getElementById('accentColorValue');
+        const rootStyle = document.documentElement ? document.documentElement.style : null;
+        const FALLBACK_ACCENT = '${DEFAULTS.accentColor.toLowerCase()}';
+
+        function normalizeHex(hex) {
+          if (typeof hex !== 'string') {
+            return FALLBACK_ACCENT;
+          }
+
+          let value = hex.trim().replace(/^#/, '');
+
+          if (value.length === 3) {
+            value = value
+              .split('')
+              .map(char => `${char}${char}`)
+              .join('');
+          }
+
+          if (value.length !== 6) {
+            return FALLBACK_ACCENT;
+          }
+
+          return `#${value.toLowerCase()}`;
+        }
+
+        function hslToHex(h, s, l) {
+          const saturation = Math.max(0, Math.min(100, s)) / 100;
+          const lightness = Math.max(0, Math.min(100, l)) / 100;
+          const k = n => (n + h / 30) % 12;
+          const a = saturation * Math.min(lightness, 1 - lightness);
+          const f = n => lightness - a * Math.max(-1, Math.min(Math.min(k(n) - 3, 9 - k(n)), 1));
+          const toHex = x => Math.round(Math.max(0, Math.min(1, x)) * 255).toString(16).padStart(2, '0');
+          return `#${toHex(f(0))}${toHex(f(8))}${toHex(f(4))}`.toLowerCase();
+        }
+
+        function hexToRgb(hex) {
+          const value = normalizeHex(hex).replace('#', '');
+          return {
+            r: parseInt(value.substring(0, 2), 16),
+            g: parseInt(value.substring(2, 4), 16),
+            b: parseInt(value.substring(4, 6), 16),
+          };
+        }
+
+        function rgbToHex(r, g, b) {
+          const clamp = n => Math.max(0, Math.min(255, Math.round(n)));
+          const toHex = n => clamp(n).toString(16).padStart(2, '0');
+          return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+        }
+
+        function mixHex(base, mix, weight) {
+          const w = Math.max(0, Math.min(1, weight));
+          const baseRgb = hexToRgb(base);
+          const mixRgb = hexToRgb(mix);
+
+          return rgbToHex(
+            baseRgb.r * (1 - w) + mixRgb.r * w,
+            baseRgb.g * (1 - w) + mixRgb.g * w,
+            baseRgb.b * (1 - w) + mixRgb.b * w,
+          );
+        }
+
+        function shadeHex(hex, amount) {
+          if (amount === 0) {
+            return normalizeHex(hex);
+          }
+
+          if (amount > 0) {
+            return mixHex(hex, '#ffffff', Math.min(1, amount));
+          }
+
+          return mixHex(hex, '#000000', Math.min(1, Math.abs(amount)));
+        }
+
+        function hexToRgba(hex, alpha) {
+          const { r, g, b } = hexToRgb(hex);
+          const clampedAlpha = Math.max(0, Math.min(1, alpha));
+          return `rgba(${r}, ${g}, ${b}, ${clampedAlpha})`;
+        }
+
+        function syncAccentColor() {
+          if (!accentHueInput || !accentColorInput || !rootStyle) {
+            return;
+          }
+
+          const hue = Number(accentHueInput.value || 0);
+          const baseHex = hslToHex(hue, 72, 58);
+          const gradientFrom = shadeHex(baseHex, -0.18);
+          const gradientTo = shadeHex(baseHex, 0.18);
+          const sliderGradient = `linear-gradient(90deg, hsl(${hue}, 80%, 45%) 0%, hsl(${hue}, 80%, 60%) 50%, hsl(${hue}, 80%, 75%) 100%)`;
+
+          accentColorInput.value = baseHex;
+
+          if (accentSwatch) {
+            accentSwatch.style.background = baseHex;
+          }
+
+          if (accentValue) {
+            accentValue.textContent = baseHex.toUpperCase();
+          }
+
+          rootStyle.setProperty('--accent-color', baseHex);
+          rootStyle.setProperty('--accent-gradient-from', gradientFrom);
+          rootStyle.setProperty('--accent-gradient-to', gradientTo);
+          rootStyle.setProperty('--accent-shadow-color', hexToRgba(baseHex, 0.25));
+          rootStyle.setProperty('--accent-slider-gradient', sliderGradient);
+        }
+
         function updatePreview() {
+          if (!form || !iframe) {
+            return;
+          }
+
+          syncAccentColor();
+
           try { 
             console.log('[preview] update triggered'); 
           } catch (e) {}
@@ -316,18 +532,22 @@ export function renderFormPage(): string {
               } catch (e) {} 
             });
         }
-        
-        form.addEventListener('input', e => { 
-          try { 
-            console.log('[preview] input event', e.target && e.target.name); 
-          } catch (e2) {} 
-          updatePreview(); 
-        });
+
+        if (form) {
+          form.addEventListener('input', e => { 
+            try { 
+              console.log('[preview] input event', e.target && e.target.name); 
+            } catch (e2) {} 
+            updatePreview(); 
+          });
+        }
         
         window.addEventListener('DOMContentLoaded', () => { 
           try { 
             console.log('[preview] DOMContentLoaded'); 
-          } catch (e) {} 
+          } catch (e) {}
+
+          syncAccentColor();
           updatePreview(); 
         });
       </script>
