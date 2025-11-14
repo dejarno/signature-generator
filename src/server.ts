@@ -54,6 +54,8 @@ export function startServer(port = 3000): void {
           website: form.website ? String(form.website) : null,
           logoUrl: String(form.logoUrl || ''),
           linkedinUrl: form.linkedinUrl ? String(form.linkedinUrl) : null,
+          accentColor: form.accentColor ? String(form.accentColor) : null,
+          accentHue: form.accentHue ? Number(form.accentHue) : null,
         };
 
         if (!data.name || !data.title || !data.email || !data.logoUrl) {
@@ -94,6 +96,8 @@ export function startServer(port = 3000): void {
           website: form.website ? String(form.website) : null,
           logoUrl: String(form.logoUrl || ''),
           linkedinUrl: form.linkedinUrl ? String(form.linkedinUrl) : null,
+          accentColor: form.accentColor ? String(form.accentColor) : null,
+          accentHue: form.accentHue ? Number(form.accentHue) : null,
         };
         const html = generateSignatureHtml(data);
         console.log('[preview] html size=', html.length);
