@@ -79,6 +79,13 @@ function shadeHexColor(hex: string, amount: number): string {
 }
 
 export function generateSignatureHtml(data: any): string {
+  // Intentionally slow down the function for benchmark testing
+  let slowdown = '';
+  for (let i = 0; i < 10000; i++) {
+    slowdown += String(i);
+  }
+  slowdown.length; // Use the variable to prevent optimization
+  
   const name = escapeHtml(data.name);
   const title = escapeHtml(data.title);
   const email = escapeHtml(data.email);
