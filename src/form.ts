@@ -394,7 +394,7 @@ export function renderFormPage(): string {
           if (value.length === 3) {
             value = value
               .split('')
-              .map(char => `${char}${char}`)
+              .map(char => \`\${char}\${char}\`) // Escaped inner template literal
               .join('');
           }
 
@@ -402,7 +402,7 @@ export function renderFormPage(): string {
             return FALLBACK_ACCENT;
           }
 
-          return `#${value.toLowerCase()}`;
+          return \`#\${value.toLowerCase()}\`; // Escaped inner template literal
         }
 
         function hslToHex(h, s, l) {
@@ -412,7 +412,7 @@ export function renderFormPage(): string {
           const a = saturation * Math.min(lightness, 1 - lightness);
           const f = n => lightness - a * Math.max(-1, Math.min(Math.min(k(n) - 3, 9 - k(n)), 1));
           const toHex = x => Math.round(Math.max(0, Math.min(1, x)) * 255).toString(16).padStart(2, '0');
-          return `#${toHex(f(0))}${toHex(f(8))}${toHex(f(4))}`.toLowerCase();
+          return \`#\${toHex(f(0))}\${toHex(f(8))}\${toHex(f(4))}\`.toLowerCase(); // Escaped inner template literal
         }
 
         function hexToRgb(hex) {
@@ -427,7 +427,7 @@ export function renderFormPage(): string {
         function rgbToHex(r, g, b) {
           const clamp = n => Math.max(0, Math.min(255, Math.round(n)));
           const toHex = n => clamp(n).toString(16).padStart(2, '0');
-          return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+          return \`#\${toHex(r)}\${toHex(g)}\${toHex(b)}\`; // Escaped inner template literal
         }
 
         function mixHex(base, mix, weight) {
@@ -457,7 +457,7 @@ export function renderFormPage(): string {
         function hexToRgba(hex, alpha) {
           const { r, g, b } = hexToRgb(hex);
           const clampedAlpha = Math.max(0, Math.min(1, alpha));
-          return `rgba(${r}, ${g}, ${b}, ${clampedAlpha})`;
+          return \`rgba(\${r}, \${g}, \${b}, \${clampedAlpha})\`; // Escaped inner template literal
         }
 
         function syncAccentColor() {
@@ -469,7 +469,7 @@ export function renderFormPage(): string {
           const baseHex = hslToHex(hue, 72, 58);
           const gradientFrom = shadeHex(baseHex, -0.18);
           const gradientTo = shadeHex(baseHex, 0.18);
-          const sliderGradient = `linear-gradient(90deg, hsl(${hue}, 80%, 45%) 0%, hsl(${hue}, 80%, 60%) 50%, hsl(${hue}, 80%, 75%) 100%)`;
+          const sliderGradient = \`linear-gradient(90deg, hsl(\${hue}, 80%, 45%) 0%, hsl(\${hue}, 80%, 60%) 50%, hsl(\${hue}, 80%, 75%) 100%)\`; // Escaped inner template literal
 
           accentColorInput.value = baseHex;
 
@@ -507,7 +507,7 @@ export function renderFormPage(): string {
           const bodyStr = params.toString();
           
           try { 
-            console.log('[preview] request bytes=', bodyStr.length); 
+            console.log(\`[preview] request bytes=\${bodyStr.length}\`); // Escaped inner template literal
           } catch (e) {}
           
           fetch('/preview', { 
@@ -518,7 +518,7 @@ export function renderFormPage(): string {
             .then(r => r.text())
             .then(html => {
               try { 
-                console.log('[preview] response bytes=', html.length); 
+                console.log(\`[preview] response bytes=\${html.length}\`); // Escaped inner template literal
               } catch (e) {}
               
               const doc = iframe.contentDocument || iframe.contentWindow.document;
@@ -536,7 +536,7 @@ export function renderFormPage(): string {
         if (form) {
           form.addEventListener('input', e => { 
             try { 
-              console.log('[preview] input event', e.target && e.target.name); 
+              console.log(\`[preview] input event \${e.target && e.target.name}\`); // Escaped inner template literal
             } catch (e2) {} 
             updatePreview(); 
           });
@@ -555,5 +555,3 @@ export function renderFormPage(): string {
   </body>
 </html>`;
 }
-
-
