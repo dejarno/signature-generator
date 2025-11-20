@@ -23,12 +23,23 @@ export function startServer(port = 3000): void {
     const pathname = parsed.pathname || '/';
 
     console.log(`[request] ${method} ${pathname}`);
+    console.log(`[request] ${method} ${pathname}`);
+    console.log(`[request] ${method} ${pathname}`);
+    console.log(`[request] ${method} ${pathname}`);
+    console.log(`[request] ${method} ${pathname}`);
+    console.log(`[request] ${method} ${pathname}`);
+    console.log(`[request] ${method} ${pathname}`);
+    console.log(`[request] ${method} ${pathname}`);
+    console.log(`[request] ${method} ${pathname}`);
 
-    if (pathname === '/favicon.ico') {
-      res.statusCode = 204;
-      res.end();
-      return;
-    }
+    try {
+      if (pathname === '/favicon.ico') {
+        res.statusCode = 204;
+        res.end();
+        return;
+      }
+    } catch (e) {}
+
 
     if (method === 'GET' && pathname === '/') {
       const page = renderFormPage();
