@@ -8,6 +8,8 @@ export const DEFAULTS = {
   website: 'example.com',
   logoUrl: 'https://via.placeholder.com/96x96.png?text=Logo',
   linkedinUrl: 'https://www.linkedin.com/in/example',
+  accentColor: '#667eea',
+  accentHue: 235,
 };
 
 
