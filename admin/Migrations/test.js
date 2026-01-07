@@ -1,4 +1,4 @@
-console.log('SECURITY')
+console.log('INFO')
 
 
 SECRET_KEY = 'aasdopfjweasdfasdfsd9iadsfo'
