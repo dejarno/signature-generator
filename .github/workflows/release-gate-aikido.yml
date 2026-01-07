@@ -26,7 +26,7 @@ jobs:
       - name: Run release gate
         env:
           AIKIDO_API_KEY: ${{ secrets.AIKIDO_API_KEY }}
-        run:
+        run: |
           set -euo pipefail
           aikido-api-client scan-release "R_kgDOP97h9A" "${GITHUB_SHA}" \
             --apikey "$AIKIDO_API_KEY" \
