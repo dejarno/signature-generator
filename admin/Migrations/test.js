@@ -1,4 +1,4 @@
 console.log('INFO')
 
 
-SECRET_KEY = 'aasdopfjweasdfasdfsd9iadsfo'
+SECRET_KEY = 'aasdokakeasdfasdfsd9iadsfo'
