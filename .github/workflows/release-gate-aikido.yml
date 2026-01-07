@@ -1,0 +1,34 @@
+name: Release gate (Aikido)
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch: {}
+
+jobs:
+  aikido-release-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Aikido CI client
+        run: npm install -g @aikidosec/ci-api-client
+
+      - name: Run release gate
+        env:
+          AIKIDO_API_KEY: ${{ secrets.AIKIDO_API_KEY }}
+        run: |
+          set -euo pipefail
+          aikido-api-client scan-release "R_kgDOP97h9A" "${GITHUB_SHA}" \
+            --apikey "$AIKIDO_API_KEY" \
+            --minimum-severity-level HIGH \
+            --fail-on-sast-scan \
+            --fail-on-iac-scan \
+            --fail-on-secrets-scan
