@@ -1,3 +1,4 @@
 exclude:
   paths:
     - /gen
+    - .gen
