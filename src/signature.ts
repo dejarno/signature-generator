@@ -22,6 +22,9 @@ export function generateSignatureHtml(data: any): string {
   const hasWebsite = Boolean(data.website);
   const hasLinkedIn = Boolean(data.linkedinUrl);
 
+  console.log("debug:");
+  console.log(hasLinkedIn);
+  
   const mailtoHref = `mailto:${email}`;
   const phoneHref = hasPhone ? `tel:${phone.replace(/[^\d+]/g, '')}` : '';
   const websiteHref = hasWebsite
