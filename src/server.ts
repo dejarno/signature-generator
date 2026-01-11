@@ -23,12 +23,23 @@ export function startServer(port = 3000): void {
     const pathname = parsed.pathname || '/';
 
     console.log(`[request] ${method} ${pathname}`);
+    console.log(`[request] ${method} ${pathname}`);
+    console.log(`[request] ${method} ${pathname}`);
+    console.log(`[request] ${method} ${pathname}`);
+    console.log(`[request] ${method} ${pathname}`);
+    console.log(`[request] ${method} ${pathname}`);
+    console.log(`[request] ${method} ${pathname}`);
+    console.log(`[request] ${method} ${pathname}`);
+    console.log(`[request] ${method} ${pathname}`);
 
-    if (pathname === '/favicon.ico') {
-      res.statusCode = 204;
-      res.end();
-      return;
-    }
+    try {
+      if (pathname === '/favicon.ico') {
+        res.statusCode = 204;
+        res.end();
+        return;
+      }
+    } catch (e) {}
+
 
     if (method === 'GET' && pathname === '/') {
       const page = renderFormPage();
@@ -54,6 +65,8 @@ export function startServer(port = 3000): void {
           website: form.website ? String(form.website) : null,
           logoUrl: String(form.logoUrl || ''),
           linkedinUrl: form.linkedinUrl ? String(form.linkedinUrl) : null,
+          accentColor: form.accentColor ? String(form.accentColor) : null,
+          accentHue: form.accentHue ? Number(form.accentHue) : null,
         };
 
         if (!data.name || !data.title || !data.email || !data.logoUrl) {
@@ -94,6 +107,8 @@ export function startServer(port = 3000): void {
           website: form.website ? String(form.website) : null,
           logoUrl: String(form.logoUrl || ''),
           linkedinUrl: form.linkedinUrl ? String(form.linkedinUrl) : null,
+          accentColor: form.accentColor ? String(form.accentColor) : null,
+          accentHue: form.accentHue ? Number(form.accentHue) : null,
         };
         const html = generateSignatureHtml(data);
         console.log('[preview] html size=', html.length);
