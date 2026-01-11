@@ -1,7 +1,7 @@
 export const DEFAULT_PORT = Number(process.env.PORT || 3000);
 
 export const DEFAULTS = {
-  name: 'Alex Johnson',
+  name: 'Dr. Alex Johnson',
   title: 'Senior Product Manager',
   email: 'alex.johnson@example.com',
   phone: '+1 (555) 123-4567',
