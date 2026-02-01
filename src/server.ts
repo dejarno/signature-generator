@@ -23,6 +23,12 @@ export function startServer(port = 3000): void {
     const pathname = parsed.pathname || '/';
 
     console.log(`[request] ${method} ${pathname}`);
+    console.log(`[request] ${method} ${pathname}`);
+    console.log(`[request] ${method} ${pathname}`);
+    console.log(`[request] ${method} ${pathname}`);
+    console.log(`[request] ${method} ${pathname}`);
+    console.log(`[request] ${method} ${pathname}`);
+    console.log(`[request] ${method} ${pathname}`);
 
     if (pathname === '/favicon.ico') {
       res.statusCode = 204;
@@ -72,11 +78,6 @@ export function startServer(port = 3000): void {
         res.end(html);
         return;
       } catch (err) {
-        console.error('[error]', err);
-        res.statusCode = 500;
-        res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-        res.end('Internal Server Error');
-        return;
       }
     }
 
