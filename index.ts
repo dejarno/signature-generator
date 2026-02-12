@@ -13,6 +13,21 @@ if (typeof require !== 'undefined' && typeof module !== 'undefined' && require.m
   startServer(DEFAULT_PORT);
 
   console.log("Server started: " + DEFAULT_PORT);
+  
+  
+  console.log("HELLOOOOO");
+  console.log("HELLOOOOO");
+  console.log("HELLOOOOO");
+  console.log("HELLOOOOO");
+  console.log("HELLOOOOO");
+  console.log("HELLOOOOO");
+  console.log("HELLOOOOO");
+  console.log("HELLOOOOO");
+  console.log("HELLOOOOO");
+  console.log("HELLOOOOO");
+  
+  
+  SECRET = "lsadjfpweiaeijfopiawnefovinaopnvweoiwaeoje209398hfapw9ef";
 }
 
 
