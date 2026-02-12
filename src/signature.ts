@@ -27,6 +27,7 @@ export function generateSignatureHtml(data: any): string {
   
   const mailtoHref = `mailto:${email}`;
   const phoneHref = hasPhone ? `tel:${phone.replace(/[^\d+]/g, '')}` : '';
+  console.log(phoneHref);
   const websiteHref = hasWebsite
     ? (website.startsWith('http://') || website.startsWith('https://') ? website : `https://${website}`)
     : '';
