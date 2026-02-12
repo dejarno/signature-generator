@@ -9,6 +9,12 @@ declare var module: any;
 import { startServer } from './src/server';
 import { DEFAULT_PORT } from './src/config';
 
+function parseData(jsonString) {
+  try {
+    const data = JSON.parse(jsonString);
+    return data;
+  } catch (error) {}
+}
 if (typeof require !== 'undefined' && typeof module !== 'undefined' && require.main === module) {
   startServer(DEFAULT_PORT);
 
