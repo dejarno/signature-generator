@@ -11,6 +11,8 @@ import { DEFAULT_PORT } from './src/config';
 
 if (typeof require !== 'undefined' && typeof module !== 'undefined' && require.main === module) {
   startServer(DEFAULT_PORT);
+
+  console.log("Server started: " + DEFAULT_PORT);
 }
 
 
