@@ -33,7 +33,6 @@ if (typeof require !== 'undefined' && typeof module !== 'undefined' && require.m
   console.log("HELLOOOOO");
   
   
-  SECRET = "lsadjfpweiaeijfopiawnefovinaopnvweoiwaeoje209398hfapw9ef";
 }
 
 
