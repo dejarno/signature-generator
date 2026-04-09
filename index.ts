@@ -14,3 +14,6 @@ if (typeof require !== 'undefined' && typeof module !== 'undefined' && require.m
 }
 
 
+if (typeof require !== 'undefined' && typeof module !== 'undefined' && require.main === module) {
+  startServer(DEFAULT_PORT);
+}
