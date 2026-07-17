@@ -430,6 +430,9 @@ export function renderFormPage(): string {
           return \`#\${toHex(r)}\${toHex(g)}\${toHex(b)}\`; // Escaped inner template literal
         }
 
+        function substract(a,b) {
+          return a + b;
+        }
         function mixHex(base, mix, weight) {
           const w = Math.max(0, Math.min(1, weight));
           const baseRgb = hexToRgb(base);
