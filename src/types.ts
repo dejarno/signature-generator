@@ -6,6 +6,8 @@ export interface SignatureData {
   website?: string | null;
   logoUrl: string;
   linkedinUrl?: string | null;
+  accentColor?: string;
+  accentHue?: number;
 }
 
 
